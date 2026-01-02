@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Logo.jpg" type="image/x-icon">
+    <title>Work Management Application</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fas fa-tasks"></i>
+                <h1>Work Management</h1>
+            </div>
+            <div class="notification-area">
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">3</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Tab Navigation -->
+            <nav class="tab-navigation">
+                <button class="tab-btn active" data-tab="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </button>
+                <button class="tab-btn" data-tab="tender">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Tender</span>
+                </button>
+                <button class="tab-btn" data-tab="letters">
+                    <i class="fas fa-envelope"></i>
+                    <span>Letters</span>
+                </button>
+            </nav>
+
+            <!-- Tab Content Container -->
+            <div class="tab-content-container">
+                <!-- Home Tab Content -->
+                <div class="tab-content active" id="home-tab">
+                    <div class="tab-header">
+                        <h2><i class="fas fa-home"></i> Dashboard</h2>
+                        <button class="upload-btn" id="uploadDocumentBtn">
+                            <i class="fas fa-upload"></i> Upload Document
+                        </button>
+                    </div>
+
+                    <!-- Document Upload Modal -->
+                    <div class="modal" id="uploadModal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Upload Document</h3>
+                                <button class="close-btn" id="closeUploadModal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="upload-area">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Drag & drop your file here or click to browse</p>
+                                    <input type="file" id="documentUpload" accept=".pdf,.doc,.docx,.txt">
+                                    <p class="file-types">Supported formats: PDF, DOC, DOCX, TXT</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="workName">Name of Work (Auto-extracted from document)</label>
+                                    <input type="text" id="workName" placeholder="Work name will appear here after upload..." readonly>
+                                </div>
+                                <button class="submit-btn" id="submitDocument">Upload Document</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Works Grid -->
+                    <div class="works-grid" id="worksGrid">
+                        <!-- Works will be dynamically added here -->
+                    </div>
+
+                    <!-- Documents Table (shown when a work is selected) -->
+                    <div class="documents-table-container" id="documentsTableContainer">
+                        <div class="table-header">
+                            <h3 id="selectedWorkTitle">Documents for <span id="currentWorkName"></span></h3>
+                            <button class="back-btn" id="backToWorksBtn">
+                                <i class="fas fa-arrow-left"></i> Back to Works
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="documents-table" id="documentsTable">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Subject</th>
+                                        <th>Status</th>
+                                        <th>File</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="documentsTableBody">
+                                    <!-- Documents will be dynamically added here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tender Tab Content -->
+                <div class="tab-content" id="tender-tab">
+                    <div class="tab-header">
+                        <h2><i class="fas fa-file-contract"></i> Tender Management</h2>
+                        <button class="upload-btn" id="uploadTenderBtn">
+                            <i class="fas fa-plus"></i> Upload Tender
+                        </button>
+                    </div>
+
+                    <!-- Upload Tender Modal -->
+                    <div class="modal" id="tenderUploadModal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Upload Tender Document</h3>
+                                <button class="close-btn" id="closeTenderModal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="workSelect">Select Work</label>
+                                    <select id="workSelect">
+                                        <option value="">Select a work</option>
+                                        <option value="Bridge Construction">Bridge Construction</option>
+                                        <option value="Road Widening">Road Widening</option>
+                                        <option value="Building Renovation">Building Renovation</option>
+                                        <option value="Park Development">Park Development</option>
+                                    </select>
+                                </div>
+                                <div class="upload-area">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Drag & drop tender file here or click to browse</p>
+                                    <input type="file" id="tenderUpload" accept=".pdf,.doc,.docx">
+                                    <p class="file-types">Supported formats: PDF, DOC, DOCX</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="significantDate">Significant Date (Deadline)</label>
+                                    <input type="date" id="significantDate">
+                                </div>
+                                <button class="submit-btn" id="submitTender">Upload Tender</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tenders Table -->
+                    <div class="table-responsive">
+                        <table class="data-table" id="tendersTable">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Name of Work</th>
+                                    <th>File</th>
+                                    <th>Uploaded Date</th>
+                                    <th>Significant Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tendersTableBody">
+                                <!-- Tenders will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Letters Tab Content -->
+                <div class="tab-content" id="letters-tab">
+                    <div class="tab-header">
+                        <h2><i class="fas fa-envelope"></i> Letter Management</h2>
+                        <div class="header-actions">
+                            <button class="upload-btn" id="uploadLetterBtn">
+                                <i class="fas fa-upload"></i> Upload Letter
+                            </button>
+                            <button class="template-btn" id="uploadTemplateBtn">
+                                <i class="fas fa-file-medical"></i> Upload Template
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Upload Letter Modal -->
+                    <div class="modal" id="letterUploadModal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Upload Letter</h3>
+                                <button class="close-btn" id="closeLetterModal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="letterWorkSelect">Select Work</label>
+                                    <select id="letterWorkSelect">
+                                        <option value="">Select a work</option>
+                                        <option value="Bridge Construction">Bridge Construction</option>
+                                        <option value="Road Widening">Road Widening</option>
+                                        <option value="Building Renovation">Building Renovation</option>
+                                        <option value="Park Development">Park Development</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="letterTemplate">Letter Template</label>
+                                    <select id="letterTemplate">
+                                        <option value="">Select a template</option>
+                                        <option value="Bank Guarantee">Bank Guarantee</option>
+                                        <option value="NOC">NOC (No Objection Certificate)</option>
+                                        <option value="Approval Letter">Approval Letter</option>
+                                        <option value="Request Letter">Request Letter</option>
+                                    </select>
+                                </div>
+                                <div class="upload-area">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Drag & drop letter file here or click to browse</p>
+                                    <input type="file" id="letterUpload" accept=".pdf,.doc,.docx">
+                                    <p class="file-types">Supported formats: PDF, DOC, DOCX</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="letterSubject">Subject</label>
+                                    <input type="text" id="letterSubject" placeholder="Enter letter subject">
+                                </div>
+                                <div class="form-group">
+                                    <label for="letterSignificantDate">Significant Date (Deadline)</label>
+                                    <input type="date" id="letterSignificantDate">
+                                </div>
+                                <button class="submit-btn" id="submitLetter">Upload Letter</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Letters Table -->
+                    <div class="table-responsive">
+                        <table class="data-table" id="lettersTable">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Name of Work</th>
+                                    <th>Subject</th>
+                                    <th>File</th>
+                                    <th>Uploaded Date</th>
+                                    <th>Significant Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lettersTableBody">
+                                <!-- Letters will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Notifications Panel -->
+        <div class="notifications-panel" id="notificationsPanel">
+            <div class="notifications-header">
+                <h3><i class="fas fa-bell"></i> Notifications</h3>
+                <button class="close-btn" id="closeNotifications">&times;</button>
+            </div>
+            <div class="notifications-list" id="notificationsList">
+                <!-- Notifications will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
