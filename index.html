@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Header Section -->
@@ -26,23 +28,7 @@
 
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Tab Navigation -->
-            <nav class="tab-navigation">
-                <button class="tab-btn active" data-tab="home">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </button>
-                <button class="tab-btn" data-tab="tender">
-                    <i class="fas fa-file-contract"></i>
-                    <span>Tender</span>
-                </button>
-                <button class="tab-btn" data-tab="letters">
-                    <i class="fas fa-envelope"></i>
-                    <span>Letters</span>
-                </button>
-            </nav>
-
-            <!-- Tab Content Container -->
+            <!-- Tab Content Container - At the top -->
             <div class="tab-content-container">
                 <!-- Home Tab Content -->
                 <div class="tab-content active" id="home-tab">
@@ -69,7 +55,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="workName">Name of Work (Auto-extracted from document)</label>
-                                    <input type="text" id="workName" placeholder="Work name will appear here after upload..." readonly>
+                                    <input type="text" id="workName"
+                                        placeholder="Work name will appear here after upload..." readonly>
                                 </div>
                                 <button class="submit-btn" id="submitDocument">Upload Document</button>
                             </div>
@@ -252,6 +239,22 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Tab Navigation - Moved to bottom -->
+            <nav class="tab-navigation">
+                <button class="tab-btn active" data-tab="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </button>
+                <button class="tab-btn" data-tab="tender">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Tender</span>
+                </button>
+                <button class="tab-btn" data-tab="letters">
+                    <i class="fas fa-envelope"></i>
+                    <span>Letters</span>
+                </button>
+            </nav>
         </main>
 
         <!-- Notifications Panel -->
@@ -268,4 +271,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
