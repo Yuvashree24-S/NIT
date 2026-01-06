@@ -28,37 +28,36 @@
 
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Tab Content Container - At the top -->
+            <!-- Tab Content Container -->
             <div class="tab-content-container">
                 <!-- Home Tab Content -->
                 <div class="tab-content active" id="home-tab">
                     <div class="tab-header">
                         <h2><i class="fas fa-home"></i> Dashboard</h2>
                         <button class="upload-btn" id="uploadDocumentBtn">
-                            <i class="fas fa-upload"></i> Upload Document
+                            <i class="fas fa-upload"></i> Upload NIT
                         </button>
                     </div>
 
-                    <!-- Document Upload Modal -->
+                    <!-- Document Upload Modal (Now Create Work Modal) -->
                     <div class="modal" id="uploadModal">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h3>Upload Document</h3>
+                                <h3>Upload NIT</h3>
                                 <button class="close-btn" id="closeUploadModal">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <div class="upload-area">
                                     <i class="fas fa-cloud-upload-alt"></i>
-                                    <p>Drag & drop your file here or click to browse</p>
+                                    <p>Drag & drop tender file here or click to browse</p>
                                     <input type="file" id="documentUpload" accept=".pdf,.doc,.docx,.txt">
                                     <p class="file-types">Supported formats: PDF, DOC, DOCX, TXT</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="workName">Name of Work (Auto-extracted from document)</label>
-                                    <input type="text" id="workName"
-                                        placeholder="Work name will appear here after upload..." readonly>
+                                    <input type="text" id="workName" placeholder="Work name will appear here after upload..." readonly>
                                 </div>
-                                <button class="submit-btn" id="submitDocument">Upload Document</button>
+                                <button class="submit-btn" id="submitDocument">Create Work</button>
                             </div>
                         </div>
                     </div>
@@ -68,191 +67,137 @@
                         <!-- Works will be dynamically added here -->
                     </div>
 
-                    <!-- Documents Table (shown when a work is selected) -->
-                    <div class="documents-table-container" id="documentsTableContainer">
+                    <!-- Work Details Container (shown when a work is selected) -->
+                    <div class="work-details-container" id="workDetailsContainer">
                         <div class="table-header">
-                            <h3 id="selectedWorkTitle">Documents for <span id="currentWorkName"></span></h3>
+                            <h3>Work Details: <span id="currentWorkName"></span></h3>
                             <button class="back-btn" id="backToWorksBtn">
                                 <i class="fas fa-arrow-left"></i> Back to Works
                             </button>
                         </div>
-                        <div class="table-responsive">
-                            <table class="documents-table" id="documentsTable">
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Subject</th>
-                                        <th>Status</th>
-                                        <th>File</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="documentsTableBody">
-                                    <!-- Documents will be dynamically added here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tender Tab Content -->
-                <div class="tab-content" id="tender-tab">
-                    <div class="tab-header">
-                        <h2><i class="fas fa-file-contract"></i> Tender Management</h2>
-                        <button class="upload-btn" id="uploadTenderBtn">
-                            <i class="fas fa-plus"></i> Upload Tender
-                        </button>
-                    </div>
-
-                    <!-- Upload Tender Modal -->
-                    <div class="modal" id="tenderUploadModal">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3>Upload Tender Document</h3>
-                                <button class="close-btn" id="closeTenderModal">&times;</button>
+                        
+                        <!-- Tabs for Info and Documents -->
+                        <div class="work-details-tabs">
+                            <div class="work-tab-buttons">
+                                <button class="work-tab-btn active" data-tab="info">Information</button>
+                                <button class="work-tab-btn" data-tab="documents">Documents</button>
                             </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="workSelect">Select Work</label>
-                                    <select id="workSelect">
-                                        <option value="">Select a work</option>
-                                        <option value="Bridge Construction">Bridge Construction</option>
-                                        <option value="Road Widening">Road Widening</option>
-                                        <option value="Building Renovation">Building Renovation</option>
-                                        <option value="Park Development">Park Development</option>
-                                    </select>
+                            
+                            <!-- Info Tab Content -->
+                            <div class="work-tab-content active" id="work-info-tab">
+                                <div class="info-header">
+                                    <h4>Work Information</h4>
+                                    <button class="add-attribute-btn" id="addAttributeBtn">
+                                        <i class="fas fa-plus"></i> Add New Attribute
+                                    </button>
                                 </div>
-                                <div class="upload-area">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <p>Drag & drop tender file here or click to browse</p>
-                                    <input type="file" id="tenderUpload" accept=".pdf,.doc,.docx">
-                                    <p class="file-types">Supported formats: PDF, DOC, DOCX</p>
+                                
+                                <!-- Add Attribute Modal -->
+                                <div class="modal" id="addAttributeModal">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3>Add New Attribute</h3>
+                                            <button class="close-btn" id="closeAttributeModal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="attributeName">Attribute Name</label>
+                                                <input type="text" id="attributeName" placeholder="Enter attribute name (e.g., Location)">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="attributeValue">Attribute Value</label>
+                                                <input type="text" id="attributeValue" placeholder="Enter attribute value">
+                                            </div>
+                                            <button class="submit-btn" id="submitAttribute">Add Attribute</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="significantDate">Significant Date (Deadline)</label>
-                                    <input type="date" id="significantDate">
+                                
+                                <div class="info-table-container">
+                                    <table class="info-table">
+                                        <tbody id="workInfoBody">
+                                            <!-- Work info will be dynamically added here -->
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <button class="submit-btn" id="submitTender">Upload Tender</button>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Tenders Table -->
-                    <div class="table-responsive">
-                        <table class="data-table" id="tendersTable">
-                            <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Name of Work</th>
-                                    <th>File</th>
-                                    <th>Uploaded Date</th>
-                                    <th>Significant Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tendersTableBody">
-                                <!-- Tenders will be dynamically added here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Letters Tab Content -->
-                <div class="tab-content" id="letters-tab">
-                    <div class="tab-header">
-                        <h2><i class="fas fa-envelope"></i> Letter Management</h2>
-                        <div class="header-actions">
-                            <button class="upload-btn" id="uploadLetterBtn">
-                                <i class="fas fa-upload"></i> Upload Letter
-                            </button>
-                            <button class="template-btn" id="uploadTemplateBtn">
-                                <i class="fas fa-file-medical"></i> Upload Template
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Upload Letter Modal -->
-                    <div class="modal" id="letterUploadModal">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3>Upload Letter</h3>
-                                <button class="close-btn" id="closeLetterModal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="letterWorkSelect">Select Work</label>
-                                    <select id="letterWorkSelect">
-                                        <option value="">Select a work</option>
-                                        <option value="Bridge Construction">Bridge Construction</option>
-                                        <option value="Road Widening">Road Widening</option>
-                                        <option value="Building Renovation">Building Renovation</option>
-                                        <option value="Park Development">Park Development</option>
-                                    </select>
+                            
+                            <!-- Documents Tab Content -->
+                            <div class="work-tab-content" id="work-documents-tab">
+                                <div class="documents-header">
+                                    <h4>Documents for this work</h4>
+                                    <button class="upload-btn small-btn" id="uploadLetterBtn">
+                                        <i class="fas fa-upload"></i> Upload Letter
+                                    </button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="letterTemplate">Letter Template</label>
-                                    <select id="letterTemplate">
-                                        <option value="">Select a template</option>
-                                        <option value="Bank Guarantee">Bank Guarantee</option>
-                                        <option value="NOC">NOC (No Objection Certificate)</option>
-                                        <option value="Approval Letter">Approval Letter</option>
-                                        <option value="Request Letter">Request Letter</option>
-                                    </select>
+                                
+                                <!-- Letter Upload Modal -->
+                                <div class="modal" id="letterUploadModal">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3>Upload Letter</h3>
+                                            <button class="close-btn" id="closeLetterModal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="letterTemplate">Letter Template</label>
+                                                <select id="letterTemplate">
+                                                    <option value="">Select a template</option>
+                                                    <option value="Bank Guarantee">Bank Guarantee</option>
+                                                    <option value="NOC">NOC (No Objection Certificate)</option>
+                                                    <option value="Approval Letter">Approval Letter</option>
+                                                    <option value="Request Letter">Request Letter</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="upload-area">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <p>Drag & drop letter file here or click to browse</p>
+                                                <input type="file" id="letterUpload" accept=".pdf,.doc,.docx">
+                                                <p class="file-types">Supported formats: PDF, DOC, DOCX</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="letterSubject">Subject</label>
+                                                <input type="text" id="letterSubject" placeholder="Enter letter subject">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="letterSignificantDate">Significant Date (Deadline)</label>
+                                                <input type="date" id="letterSignificantDate">
+                                            </div>
+                                            <button class="submit-btn" id="submitLetter">Upload Letter</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="upload-area">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <p>Drag & drop letter file here or click to browse</p>
-                                    <input type="file" id="letterUpload" accept=".pdf,.doc,.docx">
-                                    <p class="file-types">Supported formats: PDF, DOC, DOCX</p>
+                                
+                                <div class="table-responsive">
+                                    <table class="documents-table" id="documentsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Subject</th>
+                                                <th>Type</th>
+                                                <th>Uploaded Date</th>
+                                                <th>Deadline</th>
+                                                <th>File</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="documentsTableBody">
+                                            <!-- Documents will be dynamically added here -->
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="form-group">
-                                    <label for="letterSubject">Subject</label>
-                                    <input type="text" id="letterSubject" placeholder="Enter letter subject">
-                                </div>
-                                <div class="form-group">
-                                    <label for="letterSignificantDate">Significant Date (Deadline)</label>
-                                    <input type="date" id="letterSignificantDate">
-                                </div>
-                                <button class="submit-btn" id="submitLetter">Upload Letter</button>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Letters Table -->
-                    <div class="table-responsive">
-                        <table class="data-table" id="lettersTable">
-                            <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Name of Work</th>
-                                    <th>Subject</th>
-                                    <th>File</th>
-                                    <th>Uploaded Date</th>
-                                    <th>Significant Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="lettersTableBody">
-                                <!-- Letters will be dynamically added here -->
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab Navigation - Moved to bottom -->
+            <!-- Tab Navigation -->
             <nav class="tab-navigation">
                 <button class="tab-btn active" data-tab="home">
                     <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </button>
-                <button class="tab-btn" data-tab="tender">
-                    <i class="fas fa-file-contract"></i>
-                    <span>Tender</span>
-                </button>
-                <button class="tab-btn" data-tab="letters">
-                    <i class="fas fa-envelope"></i>
-                    <span>Letters</span>
+                    <span>Works</span>
                 </button>
             </nav>
         </main>

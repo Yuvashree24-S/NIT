@@ -311,6 +311,180 @@ body {
     background-color: #7f8c8d;
 }
 
+/* Work Details Styles */
+.work-details-container {
+    display: none;
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    margin-top: 2rem;
+}
+
+.work-details-tabs {
+    margin-top: 1.5rem;
+}
+
+.work-tab-buttons {
+    display: flex;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 1.5rem;
+}
+
+.work-tab-btn {
+    padding: 0.8rem 1.5rem;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #7f8c8d;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.work-tab-btn:hover {
+    color: #3498db;
+}
+
+.work-tab-btn.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+}
+
+.work-tab-content {
+    display: none;
+}
+
+.work-tab-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Info Header Styles */
+.info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.info-header h4 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.add-attribute-btn {
+    background-color: #9b59b6;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.3s;
+}
+
+.add-attribute-btn:hover {
+    background-color: #8e44ad;
+}
+
+/* Info Table Styles */
+.info-table-container {
+    margin: 1rem 0;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.info-table tr {
+    border-bottom: 1px solid #eee;
+}
+
+.info-table tr:last-child {
+    border-bottom: none;
+}
+
+.info-table td {
+    padding: 1rem;
+    vertical-align: top;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #2c3e50;
+    width: 35%;
+    background-color: #f8f9fa;
+    border-right: 1px solid #eee;
+}
+
+.info-value {
+    color: #34495e;
+    width: 65%;
+}
+
+/* Custom Attribute Styles */
+.custom-attribute {
+    background-color: #f8f9fa;
+}
+
+.custom-attribute .info-label {
+    font-style: italic;
+    color: #7f8c8d;
+}
+
+.custom-attribute-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remove-attribute-btn {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 3px;
+    transition: background 0.2s;
+    font-size: 0.9rem;
+}
+
+.remove-attribute-btn:hover {
+    background-color: #ffebee;
+}
+
+/* Documents Header */
+.documents-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.documents-header h4 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.small-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+}
+
 /* Table Styles */
 .table-responsive {
     overflow-x: auto;
@@ -342,36 +516,22 @@ body {
     background-color: #f8f9fa;
 }
 
-.status-badge {
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
+/* Document Type Badge */
+.doc-type {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
     font-size: 0.85rem;
     font-weight: 600;
     display: inline-block;
 }
 
-.status-to-initiate {
-    background-color: #f39c12;
-    color: white;
-}
-
-.status-initiated {
+.doc-type.document {
     background-color: #3498db;
     color: white;
 }
 
-.status-in-progress {
+.doc-type.letter {
     background-color: #9b59b6;
-    color: white;
-}
-
-.status-completed {
-    background-color: #2ecc71;
-    color: white;
-}
-
-.status-overdue {
-    background-color: #e74c3c;
     color: white;
 }
 
@@ -400,6 +560,10 @@ body {
 
 .download-btn {
     color: #2ecc71;
+}
+
+.share-btn {
+    color: #f39c12;
 }
 
 .delete-btn {
@@ -511,7 +675,7 @@ body {
     color: #2c3e50;
 }
 
-.form-group input, .form-group select {
+.form-group input, .form-group select, .form-group textarea {
     width: 100%;
     padding: 0.8rem;
     border: 1px solid #ddd;
@@ -520,9 +684,15 @@ body {
     transition: border-color 0.3s;
 }
 
-.form-group input:focus, .form-group select:focus {
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
     border-color: #3498db;
     outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
 }
 
 .submit-btn {
@@ -540,6 +710,87 @@ body {
 
 .submit-btn:hover {
     background-color: #27ae60;
+}
+
+/* Share Modal Styles */
+.share-link-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.share-link-container input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.copy-link-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.3s;
+}
+
+.copy-link-btn:hover {
+    background-color: #2980b9;
+}
+
+.share-options {
+    margin: 1.5rem 0;
+}
+
+.share-options p {
+    margin-bottom: 0.8rem;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.share-option-btn {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: opacity 0.3s;
+}
+
+.share-option-btn:hover {
+    opacity: 0.9;
+}
+
+.email-btn {
+    background-color: #e74c3c;
+}
+
+.whatsapp-btn {
+    background-color: #25D366;
+}
+
+.slack-btn {
+    background-color: #4A154B;
 }
 
 /* Notifications Panel */
@@ -655,7 +906,7 @@ body {
         flex-direction: column;
     }
     
-    .upload-btn, .template-btn, .back-btn {
+    .upload-btn, .template-btn, .back-btn, .small-btn {
         width: 100%;
         justify-content: center;
     }
@@ -667,5 +918,49 @@ body {
     .notifications-panel {
         width: 100%;
         right: -100%;
+    }
+    
+    /* Info Table Responsive */
+    .info-table td {
+        display: block;
+        width: 100%;
+        border: none;
+        padding: 0.8rem;
+    }
+    
+    .info-label {
+        background-color: #f8f9fa;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 0.5rem;
+    }
+    
+    .info-value {
+        padding-top: 0.5rem;
+    }
+    
+    .info-header, .documents-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .add-attribute-btn, .documents-header .small-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Share Modal Responsive */
+    .share-buttons {
+        flex-direction: column;
+    }
+    
+    .share-link-container {
+        flex-direction: column;
+    }
+    
+    .copy-link-btn {
+        width: 100%;
+        justify-content: center;
     }
 }

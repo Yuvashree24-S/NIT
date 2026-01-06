@@ -11,21 +11,23 @@ const documentUpload = document.getElementById('documentUpload');
 const workNameInput = document.getElementById('workName');
 const submitDocumentBtn = document.getElementById('submitDocument');
 const worksGrid = document.getElementById('worksGrid');
-const documentsTableContainer = document.getElementById('documentsTableContainer');
+const workDetailsContainer = document.getElementById('workDetailsContainer');
 const documentsTableBody = document.getElementById('documentsTableBody');
 const backToWorksBtn = document.getElementById('backToWorksBtn');
 const currentWorkName = document.getElementById('currentWorkName');
-const uploadTenderBtn = document.getElementById('uploadTenderBtn');
-const tenderUploadModal = document.getElementById('tenderUploadModal');
-const closeTenderModal = document.getElementById('closeTenderModal');
-const submitTenderBtn = document.getElementById('submitTender');
-const tendersTableBody = document.getElementById('tendersTableBody');
 const uploadLetterBtn = document.getElementById('uploadLetterBtn');
-const uploadTemplateBtn = document.getElementById('uploadTemplateBtn');
 const letterUploadModal = document.getElementById('letterUploadModal');
 const closeLetterModal = document.getElementById('closeLetterModal');
 const submitLetterBtn = document.getElementById('submitLetter');
-const lettersTableBody = document.getElementById('lettersTableBody');
+const workInfoBody = document.getElementById('workInfoBody');
+const workTabButtons = document.querySelectorAll('.work-tab-btn');
+const workTabContents = document.querySelectorAll('.work-tab-content');
+const addAttributeBtn = document.getElementById('addAttributeBtn');
+const addAttributeModal = document.getElementById('addAttributeModal');
+const closeAttributeModal = document.getElementById('closeAttributeModal');
+const attributeNameInput = document.getElementById('attributeName');
+const attributeValueInput = document.getElementById('attributeValue');
+const submitAttributeBtn = document.getElementById('submitAttribute');
 
 // Application State
 const appState = {
@@ -35,50 +37,94 @@ const appState = {
             name: "Bridge Construction",
             description: "Construction of a new bridge over the river",
             documents: 5,
-            tenders: 2,
-            letters: 3
+            letters: 3,
+            info: {
+                biddingType: "Open Tender",
+                biddingSystem: "e-Procurement",
+                tenderClosingDateTime: "2023-12-01T15:00:00",
+                dateTimeOfUploadingTender: "2023-10-15T10:30:00",
+                preBidConferenceRequired: "Yes",
+                preBidConferenceDateTime: "2023-11-10T14:00:00",
+                advertisedValue: "₹ 50,00,00,000",
+                tenderingSection: "Civil Works",
+                earnestMoney: "₹ 50,00,000",
+                validityOfOffer: 120,
+                contractType: "Lump Sum",
+                periodOfCompletion: "24 months",
+                contractCategory: "A",
+                biddingStartDate: "2023-10-20"
+            },
+            customAttributes: [
+                { name: "Location", value: "River Ganga, Varanasi" },
+                { name: "Project Code", value: "BC-2023-001" }
+            ]
         },
         {
             id: 2,
             name: "Road Widening",
             description: "Widening of Highway 101 from 2 to 4 lanes",
             documents: 3,
-            tenders: 1,
-            letters: 2
+            letters: 2,
+            info: {
+                biddingType: "Limited Tender",
+                biddingSystem: "Traditional",
+                tenderClosingDateTime: "2023-11-20T14:00:00",
+                dateTimeOfUploadingTender: "2023-10-10T09:15:00",
+                preBidConferenceRequired: "No",
+                preBidConferenceDateTime: "N/A",
+                advertisedValue: "₹ 25,00,00,000",
+                tenderingSection: "Road Construction",
+                earnestMoney: "₹ 25,00,000",
+                validityOfOffer: 90,
+                contractType: "Item Rate",
+                periodOfCompletion: "18 months",
+                contractCategory: "B",
+                biddingStartDate: "2023-10-15"
+            },
+            customAttributes: [
+                { name: "Location", value: "Highway 101, Km 25-50" },
+                { name: "Project Code", value: "RW-2023-002" }
+            ]
         },
         {
             id: 3,
             name: "Building Renovation",
             description: "Renovation of the municipal building",
             documents: 7,
-            tenders: 3,
-            letters: 4
-        },
-        {
-            id: 4,
-            name: "Park Development",
-            description: "Development of a new public park",
-            documents: 4,
-            tenders: 2,
-            letters: 1
+            letters: 4,
+            info: {
+                biddingType: "Single Tender",
+                biddingSystem: "e-Procurement",
+                tenderClosingDateTime: "2023-11-30T17:00:00",
+                dateTimeOfUploadingTender: "2023-10-05T11:45:00",
+                preBidConferenceRequired: "Yes",
+                preBidConferenceDateTime: "2023-11-05T10:00:00",
+                advertisedValue: "₹ 15,00,00,000",
+                tenderingSection: "Building Works",
+                earnestMoney: "₹ 15,00,000",
+                validityOfOffer: 60,
+                contractType: "Percentage Rate",
+                periodOfCompletion: "12 months",
+                contractCategory: "C",
+                biddingStartDate: "2023-10-12"
+            },
+            customAttributes: [
+                { name: "Location", value: "City Center, Municipal Building" },
+                { name: "Project Code", value: "BR-2023-003" }
+            ]
         }
     ],
     documents: [
-        { id: 1, workId: 1, subject: "Project Proposal", status: "Completed", fileName: "proposal.pdf" },
-        { id: 2, workId: 1, subject: "Budget Estimate", status: "In Progress", fileName: "budget.xlsx" },
-        { id: 3, workId: 1, subject: "Site Survey Report", status: "Initiated", fileName: "survey.pdf" },
-        { id: 4, workId: 2, subject: "Traffic Analysis", status: "Completed", fileName: "traffic.pdf" },
-        { id: 5, workId: 2, subject: "Environmental Impact", status: "Has to be initiated", fileName: "environment.pdf" }
-    ],
-    tenders: [
-        { id: 1, workName: "Bridge Construction", fileName: "tender_bridge.pdf", uploadedDate: "2023-10-15", significantDate: "2023-12-01" },
-        { id: 2, workName: "Road Widening", fileName: "tender_road.pdf", uploadedDate: "2023-10-10", significantDate: "2023-11-20" },
-        { id: 3, workName: "Building Renovation", fileName: "tender_renovation.pdf", uploadedDate: "2023-10-05", significantDate: "2023-11-30" }
-    ],
-    letters: [
-        { id: 1, workName: "Bridge Construction", subject: "Bank Guarantee", fileName: "bank_guarantee.pdf", uploadedDate: "2023-10-12", significantDate: "2023-10-30" },
-        { id: 2, workName: "Road Widening", subject: "NOC", fileName: "noc.pdf", uploadedDate: "2023-10-08", significantDate: "2023-11-15" },
-        { id: 3, workName: "Building Renovation", subject: "Approval Letter", fileName: "approval.pdf", uploadedDate: "2023-10-03", significantDate: "2023-10-25" }
+        { id: 1, workId: 1, subject: "Project Proposal", type: "Document", uploadedDate: "2023-10-12", deadline: "2023-11-12", fileName: "proposal.pdf" },
+        { id: 2, workId: 1, subject: "Budget Estimate", type: "Document", uploadedDate: "2023-10-13", deadline: "2023-11-13", fileName: "budget.xlsx" },
+        { id: 3, workId: 1, subject: "Bank Guarantee", type: "Letter", uploadedDate: "2023-10-14", deadline: "2023-10-30", fileName: "bank_guarantee.pdf" },
+        { id: 4, workId: 1, subject: "Site Survey Report", type: "Document", uploadedDate: "2023-10-15", deadline: "N/A", fileName: "survey.pdf" },
+        { id: 5, workId: 1, subject: "Approval Letter", type: "Letter", uploadedDate: "2023-10-16", deadline: "2023-11-01", fileName: "approval.pdf" },
+        { id: 6, workId: 2, subject: "Traffic Analysis", type: "Document", uploadedDate: "2023-10-08", deadline: "2023-11-08", fileName: "traffic.pdf" },
+        { id: 7, workId: 2, subject: "NOC Letter", type: "Letter", uploadedDate: "2023-10-09", deadline: "2023-11-15", fileName: "noc.pdf" },
+        { id: 8, workId: 2, subject: "Environmental Impact", type: "Document", uploadedDate: "2023-10-10", deadline: "N/A", fileName: "environment.pdf" },
+        { id: 9, workId: 3, subject: "Structural Analysis", type: "Document", uploadedDate: "2023-10-03", deadline: "2023-11-03", fileName: "structural.pdf" },
+        { id: 10, workId: 3, subject: "Safety Compliance", type: "Document", uploadedDate: "2023-10-04", deadline: "N/A", fileName: "safety.pdf" }
     ],
     notifications: [
         { id: 1, title: "Deadline Approaching", message: "Tender for Bridge Construction is due in 3 days", time: "2 hours ago", read: false },
@@ -91,8 +137,6 @@ const appState = {
 // Initialize the application
 function initApp() {
     renderWorksGrid();
-    renderTendersTable();
-    renderLettersTable();
     renderNotifications();
     setupEventListeners();
     checkForUpcomingDeadlines();
@@ -108,6 +152,14 @@ function setupEventListeners() {
         });
     });
 
+    // Work Detail Tab Switching
+    workTabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabId = button.getAttribute('data-tab');
+            switchWorkTab(tabId);
+        });
+    });
+
     // Notification Panel
     notificationBtn.addEventListener('click', () => {
         notificationsPanel.classList.add('active');
@@ -117,7 +169,7 @@ function setupEventListeners() {
         notificationsPanel.classList.remove('active');
     });
 
-    // Document Upload Modal
+    // Document Upload Modal (Create Work)
     uploadDocumentBtn.addEventListener('click', () => {
         uploadModal.style.display = 'flex';
     });
@@ -133,21 +185,10 @@ function setupEventListeners() {
 
     // Back to Works button
     backToWorksBtn.addEventListener('click', () => {
-        documentsTableContainer.style.display = 'none';
+        workDetailsContainer.style.display = 'none';
         worksGrid.style.display = 'grid';
         appState.currentWorkId = null;
     });
-
-    // Tender Upload Modal
-    uploadTenderBtn.addEventListener('click', () => {
-        tenderUploadModal.style.display = 'flex';
-    });
-
-    closeTenderModal.addEventListener('click', () => {
-        tenderUploadModal.style.display = 'none';
-    });
-
-    submitTenderBtn.addEventListener('click', handleTenderSubmit);
 
     // Letter Upload Modal
     uploadLetterBtn.addEventListener('click', () => {
@@ -156,14 +197,22 @@ function setupEventListeners() {
 
     closeLetterModal.addEventListener('click', () => {
         letterUploadModal.style.display = 'none';
+        resetLetterForm();
     });
 
     submitLetterBtn.addEventListener('click', handleLetterSubmit);
 
-    // Upload Template Button
-    uploadTemplateBtn.addEventListener('click', () => {
-        alert('Template upload functionality would be implemented with backend integration.');
+    // Add Attribute Modal
+    addAttributeBtn.addEventListener('click', () => {
+        addAttributeModal.style.display = 'flex';
     });
+
+    closeAttributeModal.addEventListener('click', () => {
+        addAttributeModal.style.display = 'none';
+        resetAttributeForm();
+    });
+
+    submitAttributeBtn.addEventListener('click', handleAttributeSubmit);
 
     // Close modals when clicking outside
     window.addEventListener('click', (event) => {
@@ -171,11 +220,13 @@ function setupEventListeners() {
             uploadModal.style.display = 'none';
             resetUploadForm();
         }
-        if (event.target === tenderUploadModal) {
-            tenderUploadModal.style.display = 'none';
-        }
         if (event.target === letterUploadModal) {
             letterUploadModal.style.display = 'none';
+            resetLetterForm();
+        }
+        if (event.target === addAttributeModal) {
+            addAttributeModal.style.display = 'none';
+            resetAttributeForm();
         }
     });
 }
@@ -200,9 +251,28 @@ function switchTab(tabId) {
 
     // If switching to home tab, show works grid
     if (tabId === 'home' && !appState.currentWorkId) {
-        documentsTableContainer.style.display = 'none';
+        workDetailsContainer.style.display = 'none';
         worksGrid.style.display = 'grid';
     }
+}
+
+// Work Detail Tab Switching
+function switchWorkTab(tabId) {
+    // Update active work tab button
+    workTabButtons.forEach(button => {
+        button.classList.remove('active');
+        if (button.getAttribute('data-tab') === tabId) {
+            button.classList.add('active');
+        }
+    });
+
+    // Show active work tab content
+    workTabContents.forEach(content => {
+        content.classList.remove('active');
+        if (content.id === `work-${tabId}-tab`) {
+            content.classList.add('active');
+        }
+    });
 }
 
 // Handle File Upload
@@ -228,13 +298,13 @@ function extractWorkName(fileName) {
     ).join(' ');
 }
 
-// Handle Document Submission
+// Handle Document Submission (Create Work)
 function handleDocumentSubmit() {
     const fileInput = documentUpload.files[0];
     const workName = workNameInput.value;
 
     if (!fileInput) {
-        alert('Please select a file to upload.');
+        alert('Please select a tender file to create work.');
         return;
     }
 
@@ -250,8 +320,24 @@ function handleDocumentSubmit() {
         name: workName,
         description: `Project details for ${workName}`,
         documents: 1,
-        tenders: 0,
-        letters: 0
+        letters: 0,
+        info: {
+            biddingType: "To be filled",
+            biddingSystem: "To be filled",
+            tenderClosingDateTime: "To be filled",
+            dateTimeOfUploadingTender: new Date().toISOString(),
+            preBidConferenceRequired: "To be filled",
+            preBidConferenceDateTime: "To be filled",
+            advertisedValue: "To be filled",
+            tenderingSection: "To be filled",
+            earnestMoney: "To be filled",
+            validityOfOffer: 0,
+            contractType: "To be filled",
+            periodOfCompletion: "To be filled",
+            contractCategory: "To be filled",
+            biddingStartDate: "To be filled"
+        },
+        customAttributes: []
     };
 
     // Create a new document entry
@@ -259,7 +345,9 @@ function handleDocumentSubmit() {
         id: appState.documents.length + 1,
         workId: newWorkId,
         subject: fileInput.name.replace(/\.[^/.]+$/, ""),
-        status: "Has to be initiated",
+        type: "Document",
+        uploadedDate: new Date().toISOString().split('T')[0],
+        deadline: "N/A",
         fileName: fileInput.name
     };
 
@@ -275,16 +363,65 @@ function handleDocumentSubmit() {
     resetUploadForm();
 
     // Show success message
-    alert('Document uploaded successfully!');
+    alert('Work created successfully!');
     
     // Add notification
-    addNotification('New Document Uploaded', `A new document has been uploaded for ${workName}`);
+    addNotification('New Work Created', `A new work "${workName}" has been created`);
 }
 
 // Reset Upload Form
 function resetUploadForm() {
     documentUpload.value = '';
     workNameInput.value = '';
+}
+
+// Reset Letter Form
+function resetLetterForm() {
+    document.getElementById('letterTemplate').value = '';
+    document.getElementById('letterUpload').value = '';
+    document.getElementById('letterSubject').value = '';
+    document.getElementById('letterSignificantDate').value = '';
+}
+
+// Handle Attribute Submission
+function handleAttributeSubmit() {
+    const attributeName = attributeNameInput.value.trim();
+    const attributeValue = attributeValueInput.value.trim();
+
+    if (!attributeName) {
+        alert('Please enter attribute name.');
+        return;
+    }
+
+    if (!attributeValue) {
+        alert('Please enter attribute value.');
+        return;
+    }
+
+    // Get current work
+    const work = appState.works.find(w => w.id === appState.currentWorkId);
+    if (!work) return;
+
+    // Add custom attribute
+    work.customAttributes.push({
+        name: attributeName,
+        value: attributeValue
+    });
+
+    // Update UI
+    renderWorkInfo(appState.currentWorkId);
+
+    // Close modal and reset form
+    addAttributeModal.style.display = 'none';
+    resetAttributeForm();
+
+    alert('Attribute added successfully!');
+}
+
+// Reset attribute form
+function resetAttributeForm() {
+    attributeNameInput.value = '';
+    attributeValueInput.value = '';
 }
 
 // Render Works Grid
@@ -305,10 +442,6 @@ function renderWorksGrid() {
                     <div class="label">Documents</div>
                 </div>
                 <div class="stat">
-                    <div class="count">${work.tenders}</div>
-                    <div class="label">Tenders</div>
-                </div>
-                <div class="stat">
                     <div class="count">${work.letters}</div>
                     <div class="label">Letters</div>
                 </div>
@@ -316,22 +449,129 @@ function renderWorksGrid() {
         `;
         
         workCard.addEventListener('click', () => {
-            showDocumentsForWork(work.id, work.name);
+            showWorkDetails(work.id, work.name);
         });
         
         worksGrid.appendChild(workCard);
     });
 }
 
-// Show Documents for Selected Work
-function showDocumentsForWork(workId, workName) {
+// Show Work Details
+function showWorkDetails(workId, workName) {
     appState.currentWorkId = workId;
     currentWorkName.textContent = workName;
     
-    // Filter documents for the selected work
+    // Show work details container
+    workDetailsContainer.style.display = 'block';
+    worksGrid.style.display = 'none';
+    
+    // Load work info
+    renderWorkInfo(workId);
+    
+    // Load documents
+    renderDocumentsTable(workId);
+    
+    // Switch to info tab by default
+    switchWorkTab('info');
+}
+
+// Render Work Information
+function renderWorkInfo(workId) {
+    const work = appState.works.find(w => w.id === workId);
+    if (!work) return;
+    
+    workInfoBody.innerHTML = '';
+    
+    // Standard info fields
+    const infoFields = [
+        { label: 'Name of Work', value: work.name },
+        { label: 'Bidding Type', value: work.info.biddingType },
+        { label: 'Bidding System', value: work.info.biddingSystem },
+        { label: 'Tender Closing Date Time', value: formatDateTime(work.info.tenderClosingDateTime) },
+        { label: 'Date Time Of Uploading Tender', value: formatDateTime(work.info.dateTimeOfUploadingTender) },
+        { label: 'Pre-Bid Conference Required', value: work.info.preBidConferenceRequired },
+        { label: 'Pre-Bid Conference Date Time', value: formatDateTime(work.info.preBidConferenceDateTime) },
+        { label: 'Advertised Value', value: work.info.advertisedValue },
+        { label: 'Tendering Section', value: work.info.tenderingSection },
+        { label: 'Earnest Money (Rs.)', value: work.info.earnestMoney },
+        { label: 'Validity of Offer (Days)', value: work.info.validityOfOffer },
+        { label: 'Contract Type', value: work.info.contractType },
+        { label: 'Period of Completion', value: work.info.periodOfCompletion },
+        { label: 'Contract Category', value: work.info.contractCategory },
+        { label: 'Bidding Start Date', value: work.info.biddingStartDate }
+    ];
+    
+    // Add standard fields
+    infoFields.forEach(field => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="info-label">${field.label}</td>
+            <td class="info-value">${field.value}</td>
+        `;
+        workInfoBody.appendChild(row);
+    });
+    
+    // Add custom attributes
+    work.customAttributes.forEach(attr => {
+        const row = document.createElement('tr');
+        row.className = 'custom-attribute';
+        row.innerHTML = `
+            <td class="info-label">${attr.name}</td>
+            <td class="info-value">
+                <div class="custom-attribute-content">
+                    ${attr.value}
+                    <button class="remove-attribute-btn" data-attribute-name="${attr.name}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </td>
+        `;
+        workInfoBody.appendChild(row);
+    });
+    
+    // Add event listeners to remove buttons
+    document.querySelectorAll('.remove-attribute-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const attributeName = e.currentTarget.getAttribute('data-attribute-name');
+            if (confirm(`Remove attribute "${attributeName}"?`)) {
+                removeCustomAttribute(attributeName);
+            }
+        });
+    });
+}
+
+// Format date time
+function formatDateTime(dateTimeStr) {
+    if (!dateTimeStr || dateTimeStr === 'To be filled' || dateTimeStr === 'N/A') {
+        return dateTimeStr;
+    }
+    
+    try {
+        const date = new Date(dateTimeStr);
+        return date.toLocaleString();
+    } catch {
+        return dateTimeStr;
+    }
+}
+
+// Function to remove custom attribute
+function removeCustomAttribute(attributeName) {
+    const work = appState.works.find(w => w.id === appState.currentWorkId);
+    if (!work) return;
+    
+    const index = work.customAttributes.findIndex(attr => attr.name === attributeName);
+    if (index !== -1) {
+        work.customAttributes.splice(index, 1);
+        renderWorkInfo(appState.currentWorkId);
+        alert('Attribute removed successfully!');
+    }
+}
+
+// Render Documents Table
+function renderDocumentsTable(workId) {
     const workDocuments = appState.documents.filter(doc => doc.workId === workId);
     
-    // Update documents table
     documentsTableBody.innerHTML = '';
     
     workDocuments.forEach((doc, index) => {
@@ -340,7 +580,9 @@ function showDocumentsForWork(workId, workName) {
         row.innerHTML = `
             <td>${index + 1}</td>
             <td>${doc.subject}</td>
-            <td><span class="status-badge status-${doc.status.toLowerCase().replace(/\s+/g, '-')}">${doc.status}</span></td>
+            <td><span class="doc-type ${doc.type.toLowerCase()}">${doc.type}</span></td>
+            <td>${doc.uploadedDate}</td>
+            <td>${doc.deadline}</td>
             <td>${doc.fileName}</td>
             <td>
                 <div class="action-buttons">
@@ -349,6 +591,9 @@ function showDocumentsForWork(workId, workName) {
                     </button>
                     <button class="action-btn download-btn" data-file="${doc.fileName}">
                         <i class="fas fa-download"></i>
+                    </button>
+                    <button class="action-btn share-btn" data-file="${doc.fileName}" data-doc-id="${doc.id}">
+                        <i class="fas fa-share-alt"></i>
                     </button>
                     <button class="action-btn delete-btn" data-doc-id="${doc.id}">
                         <i class="fas fa-trash"></i>
@@ -375,6 +620,14 @@ function showDocumentsForWork(workId, workName) {
         });
     });
     
+    document.querySelectorAll('.share-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const fileName = e.currentTarget.getAttribute('data-file');
+            const docId = e.currentTarget.getAttribute('data-doc-id');
+            shareDocument(fileName, docId);
+        });
+    });
+    
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const docId = parseInt(e.currentTarget.getAttribute('data-doc-id'));
@@ -383,193 +636,44 @@ function showDocumentsForWork(workId, workName) {
             }
         });
     });
-    
-    // Show documents table and hide works grid
-    worksGrid.style.display = 'none';
-    documentsTableContainer.style.display = 'block';
 }
 
 // Delete Document
 function deleteDocument(docId) {
-    // Remove from state
     const docIndex = appState.documents.findIndex(doc => doc.id === docId);
     if (docIndex !== -1) {
+        const document = appState.documents[docIndex];
         appState.documents.splice(docIndex, 1);
         
-        // Update work document count
-        const workId = appState.currentWorkId;
-        const work = appState.works.find(w => w.id === workId);
+        // Update work document/letter count
+        const work = appState.works.find(w => w.id === appState.currentWorkId);
         if (work) {
-            work.documents = Math.max(0, work.documents - 1);
+            if (document.type === 'Document') {
+                work.documents = Math.max(0, work.documents - 1);
+            } else if (document.type === 'Letter') {
+                work.letters = Math.max(0, work.letters - 1);
+            }
         }
         
         // Update UI
-        showDocumentsForWork(workId, currentWorkName.textContent);
+        renderDocumentsTable(appState.currentWorkId);
         renderWorksGrid();
         
         alert('Document deleted successfully.');
     }
 }
 
-// Handle Tender Submission
-function handleTenderSubmit() {
-    const workSelect = document.getElementById('workSelect');
-    const fileInput = document.getElementById('tenderUpload');
-    const significantDate = document.getElementById('significantDate');
-    
-    const workName = workSelect.value;
-    const file = fileInput.files[0];
-    const sigDate = significantDate.value;
-    
-    if (!workName) {
-        alert('Please select a work.');
-        return;
-    }
-    
-    if (!file) {
-        alert('Please select a file to upload.');
-        return;
-    }
-    
-    if (!sigDate) {
-        alert('Please select a significant date.');
-        return;
-    }
-    
-    // Create new tender
-    const newTender = {
-        id: appState.tenders.length + 1,
-        workName: workName,
-        fileName: file.name,
-        uploadedDate: new Date().toISOString().split('T')[0], // Today's date
-        significantDate: sigDate
-    };
-    
-    // Update state
-    appState.tenders.push(newTender);
-    
-    // Update work tender count
-    const work = appState.works.find(w => w.name === workName);
-    if (work) {
-        work.tenders++;
-    }
-    
-    // Update UI
-    renderTendersTable();
-    renderWorksGrid();
-    
-    // Close modal
-    tenderUploadModal.style.display = 'none';
-    
-    // Reset form
-    workSelect.value = '';
-    fileInput.value = '';
-    significantDate.value = '';
-    
-    // Show success message
-    alert('Tender uploaded successfully!');
-    
-    // Add notification
-    addNotification('New Tender Uploaded', `A new tender has been uploaded for ${workName}`);
-}
-
-// Render Tenders Table
-function renderTendersTable() {
-    tendersTableBody.innerHTML = '';
-    
-    appState.tenders.forEach((tender, index) => {
-        const row = document.createElement('tr');
-        
-        row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${tender.workName}</td>
-            <td>${tender.fileName}</td>
-            <td>${tender.uploadedDate}</td>
-            <td>${tender.significantDate}</td>
-            <td>
-                <div class="action-buttons">
-                    <button class="action-btn preview-btn" data-file="${tender.fileName}">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="action-btn download-btn" data-file="${tender.fileName}">
-                        <i class="fas fa-download"></i>
-                    </button>
-                    <button class="action-btn delete-btn" data-tender-id="${tender.id}">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </td>
-        `;
-        
-        tendersTableBody.appendChild(row);
-    });
-    
-    // Add event listeners to action buttons
-    document.querySelectorAll('#tendersTableBody .preview-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const fileName = e.currentTarget.getAttribute('data-file');
-            alert(`Preview functionality for ${fileName} would open in a new window.`);
-        });
-    });
-    
-    document.querySelectorAll('#tendersTableBody .download-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const fileName = e.currentTarget.getAttribute('data-file');
-            alert(`Downloading ${fileName}...`);
-        });
-    });
-    
-    document.querySelectorAll('#tendersTableBody .delete-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const tenderId = parseInt(e.currentTarget.getAttribute('data-tender-id'));
-            if (confirm('Are you sure you want to delete this tender?')) {
-                deleteTender(tenderId);
-            }
-        });
-    });
-}
-
-// Delete Tender
-function deleteTender(tenderId) {
-    const tenderIndex = appState.tenders.findIndex(t => t.id === tenderId);
-    if (tenderIndex !== -1) {
-        const tender = appState.tenders[tenderIndex];
-        
-        // Update work tender count
-        const work = appState.works.find(w => w.name === tender.workName);
-        if (work) {
-            work.tenders = Math.max(0, work.tenders - 1);
-        }
-        
-        // Remove from state
-        appState.tenders.splice(tenderIndex, 1);
-        
-        // Update UI
-        renderTendersTable();
-        renderWorksGrid();
-        
-        alert('Tender deleted successfully.');
-    }
-}
-
 // Handle Letter Submission
 function handleLetterSubmit() {
-    const workSelect = document.getElementById('letterWorkSelect');
     const templateSelect = document.getElementById('letterTemplate');
     const fileInput = document.getElementById('letterUpload');
     const subjectInput = document.getElementById('letterSubject');
     const significantDate = document.getElementById('letterSignificantDate');
     
-    const workName = workSelect.value;
     const template = templateSelect.value;
     const file = fileInput.files[0];
     const subject = subjectInput.value || template;
     const sigDate = significantDate.value;
-    
-    if (!workName) {
-        alert('Please select a work.');
-        return;
-    }
     
     if (!template) {
         alert('Please select a letter template.');
@@ -588,122 +692,144 @@ function handleLetterSubmit() {
     
     // Create new letter
     const newLetter = {
-        id: appState.letters.length + 1,
-        workName: workName,
+        id: appState.documents.length + 1,
+        workId: appState.currentWorkId,
         subject: subject,
-        fileName: file.name,
-        uploadedDate: new Date().toISOString().split('T')[0], // Today's date
-        significantDate: sigDate
+        type: "Letter",
+        uploadedDate: new Date().toISOString().split('T')[0],
+        deadline: sigDate,
+        fileName: file.name
     };
     
     // Update state
-    appState.letters.push(newLetter);
+    appState.documents.push(newLetter);
     
     // Update work letter count
-    const work = appState.works.find(w => w.name === workName);
+    const work = appState.works.find(w => w.id === appState.currentWorkId);
     if (work) {
         work.letters++;
     }
     
     // Update UI
-    renderLettersTable();
+    renderDocumentsTable(appState.currentWorkId);
     renderWorksGrid();
     
     // Close modal
     letterUploadModal.style.display = 'none';
     
     // Reset form
-    workSelect.value = '';
-    templateSelect.value = '';
-    fileInput.value = '';
-    subjectInput.value = '';
-    significantDate.value = '';
+    resetLetterForm();
     
     // Show success message
     alert('Letter uploaded successfully!');
     
     // Add notification
-    addNotification('New Letter Uploaded', `A new ${subject} letter has been uploaded for ${workName}`);
+    addNotification('New Letter Uploaded', `A new ${subject} letter has been uploaded for ${work.name}`);
 }
 
-// Render Letters Table
-function renderLettersTable() {
-    lettersTableBody.innerHTML = '';
+// Function to handle document sharing
+function shareDocument(fileName, docId) {
+    // Get the document
+    const doc = appState.documents.find(d => d.id === parseInt(docId));
+    if (!doc) return;
     
-    appState.letters.forEach((letter, index) => {
-        const row = document.createElement('tr');
-        
-        row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${letter.workName}</td>
-            <td>${letter.subject}</td>
-            <td>${letter.fileName}</td>
-            <td>${letter.uploadedDate}</td>
-            <td>${letter.significantDate}</td>
-            <td>
-                <div class="action-buttons">
-                    <button class="action-btn preview-btn" data-file="${letter.fileName}">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="action-btn download-btn" data-file="${letter.fileName}">
-                        <i class="fas fa-download"></i>
-                    </button>
-                    <button class="action-btn delete-btn" data-letter-id="${letter.id}">
-                        <i class="fas fa-trash"></i>
-                    </button>
+    // Create a share modal
+    const shareModal = document.createElement('div');
+    shareModal.className = 'modal';
+    shareModal.id = 'shareModal';
+    shareModal.style.display = 'flex';
+    
+    shareModal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Document</h3>
+                <button class="close-btn" id="closeShareModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="shareEmail">Share via Email</label>
+                    <input type="email" id="shareEmail" placeholder="Enter email address">
                 </div>
-            </td>
-        `;
-        
-        lettersTableBody.appendChild(row);
+                <div class="form-group">
+                    <label for="shareMessage">Message (Optional)</label>
+                    <textarea id="shareMessage" placeholder="Add a message..." rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Share Link</label>
+                    <div class="share-link-container">
+                        <input type="text" id="shareLink" value="https://work-management.app/share/${docId}" readonly>
+                        <button class="copy-link-btn" id="copyLinkBtn">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+                <div class="share-options">
+                    <p>Share via:</p>
+                    <div class="share-buttons">
+                        <button class="share-option-btn email-btn">
+                            <i class="fas fa-envelope"></i> Email
+                        </button>
+                        <button class="share-option-btn whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                        <button class="share-option-btn slack-btn">
+                            <i class="fab fa-slack"></i> Slack
+                        </button>
+                    </div>
+                </div>
+                <button class="submit-btn" id="sendShareBtn">Send Share</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(shareModal);
+    
+    // Add event listeners for the share modal
+    const closeShareModal = document.getElementById('closeShareModal');
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const shareLink = document.getElementById('shareLink');
+    const sendShareBtn = document.getElementById('sendShareBtn');
+    const emailInput = document.getElementById('shareEmail');
+    
+    closeShareModal.addEventListener('click', () => {
+        document.body.removeChild(shareModal);
     });
     
-    // Add event listeners to action buttons
-    document.querySelectorAll('#lettersTableBody .preview-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const fileName = e.currentTarget.getAttribute('data-file');
-            alert(`Preview functionality for ${fileName} would open in a new window.`);
-        });
+    copyLinkBtn.addEventListener('click', () => {
+        shareLink.select();
+        document.execCommand('copy');
+        alert('Link copied to clipboard!');
     });
     
-    document.querySelectorAll('#lettersTableBody .download-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const fileName = e.currentTarget.getAttribute('data-file');
-            alert(`Downloading ${fileName}...`);
-        });
-    });
-    
-    document.querySelectorAll('#lettersTableBody .delete-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const letterId = parseInt(e.currentTarget.getAttribute('data-letter-id'));
-            if (confirm('Are you sure you want to delete this letter?')) {
-                deleteLetter(letterId);
-            }
-        });
-    });
-}
-
-// Delete Letter
-function deleteLetter(letterId) {
-    const letterIndex = appState.letters.findIndex(l => l.id === letterId);
-    if (letterIndex !== -1) {
-        const letter = appState.letters[letterIndex];
-        
-        // Update work letter count
-        const work = appState.works.find(w => w.name === letter.workName);
-        if (work) {
-            work.letters = Math.max(0, work.letters - 1);
+    sendShareBtn.addEventListener('click', () => {
+        const email = emailInput.value.trim();
+        if (!email) {
+            alert('Please enter an email address.');
+            return;
         }
         
-        // Remove from state
-        appState.letters.splice(letterIndex, 1);
+        // Simulate sending share
+        alert(`Document "${fileName}" has been shared with ${email}`);
+        document.body.removeChild(shareModal);
         
-        // Update UI
-        renderLettersTable();
-        renderWorksGrid();
-        
-        alert('Letter deleted successfully.');
-    }
+        // Add notification
+        addNotification('Document Shared', `You shared "${fileName}" with ${email}`);
+    });
+    
+    // Share option buttons
+    document.querySelectorAll('.share-option-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const platform = e.currentTarget.classList[1].replace('-btn', '');
+            alert(`Sharing "${fileName}" via ${platform}...`);
+        });
+    });
+    
+    // Close modal when clicking outside
+    shareModal.addEventListener('click', (e) => {
+        if (e.target === shareModal) {
+            document.body.removeChild(shareModal);
+        }
+    });
 }
 
 // Render Notifications
@@ -765,34 +891,22 @@ function addNotification(title, message) {
 
 // Check for Upcoming Deadlines (Notification Simulation)
 function checkForUpcomingDeadlines() {
-    // This function would check for upcoming deadlines in a real application
-    // For now, we'll simulate by checking if there are any deadlines in the next 7 days
-    
     const today = new Date();
     const nextWeek = new Date();
     nextWeek.setDate(today.getDate() + 7);
     
-    // Check tenders
-    appState.tenders.forEach(tender => {
-        const deadline = new Date(tender.significantDate);
-        if (deadline > today && deadline <= nextWeek) {
-            const daysUntilDeadline = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
-            addNotification(
-                'Deadline Approaching', 
-                `Tender for ${tender.workName} is due in ${daysUntilDeadline} day(s)`
-            );
-        }
-    });
-    
-    // Check letters
-    appState.letters.forEach(letter => {
-        const deadline = new Date(letter.significantDate);
-        if (deadline > today && deadline <= nextWeek) {
-            const daysUntilDeadline = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
-            addNotification(
-                'Letter Deadline Approaching', 
-                `${letter.subject} for ${letter.workName} is due in ${daysUntilDeadline} day(s)`
-            );
+    // Check documents for deadlines
+    appState.documents.forEach(doc => {
+        if (doc.deadline && doc.deadline !== 'N/A') {
+            const deadline = new Date(doc.deadline);
+            if (deadline > today && deadline <= nextWeek) {
+                const work = appState.works.find(w => w.id === doc.workId);
+                const daysUntilDeadline = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+                addNotification(
+                    'Deadline Approaching', 
+                    `${doc.subject} for ${work.name} is due in ${daysUntilDeadline} day(s)`
+                );
+            }
         }
     });
 }
